@@ -18,7 +18,12 @@
 	if ($hourNow >= 8){
 		$partOfDay = "koolipäev";
 	}
-	
+	if ($hourNow > 16){
+		$partOfDay = "õhtupoolik";
+	}
+	if ($hourNow >= 22){
+		$partOfDay = "öö";
+	}
 ?>
 
 <!DOCTYPE html>
