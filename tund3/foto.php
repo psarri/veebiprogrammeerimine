@@ -13,15 +13,15 @@
 	foreach ($allFiles as $file){
 		$fileType = pathinfo($file, PATHINFO_EXTENSION);
 		//kas see tüüp on lubatud nimekirjas
-		if (in_array($picFiles, $picFileTypes) == true){
+		if (in_array($fileType, $picFileTypes) == true){
 			array_push($picFiles, $file);
 		}
 	}//foreach lõppeb
-	var_dump($allFiles);
+	//var_dump($picFiles);
 	
 	//mitu pilti on?
 	$fileCount = count($picFiles);
-	$picNumber = mt_rand(0, $fileCount -1);
+	$picNumber = mt_rand(0, $fileCount - 1);
 	$picToShow = $picFiles[$picNumber];
 ?>
 
@@ -36,6 +36,6 @@
 	<p>See veebileht on loodud veebiprogrammerimise kursusel ning ei sisalda tõsiselt võetavat sisu.</p>
 
 	<p>Üks pilt Tallinna Ülikoolist!</p>
-	<img src="<?php echo $dirToRead .$picToShow;?>" alt="Tallinna Ülikool">
+	<img src="<?php echo $dirToRead .$picToShow; ?>" alt="Tallinna Ülikool">
 </body>
 </html>
