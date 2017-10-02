@@ -3,6 +3,12 @@
 	require("functions.php");
 	//echo $serverHost;
 
+	//kui on sisse loginud, siis kohe main.php lehele
+	if(isset($_SESSION["userId"])){
+		header("location main.php");
+		exit();
+	}
+	
 	$signupFirstName = "";
 	$signupFamilyName = "";
 	$signupEmail = "";
@@ -13,6 +19,7 @@
 	$signupBirthDate = "";
 	
 	$loginEmail = "";
+	$notice = "";
 	
 	$signupFirstNameError = "";
 	$signupFamilyNameError = "";
@@ -23,13 +30,19 @@
 	$signupEmailError = "";
 	$signupPasswordError = "";
 	
-	//kas on kasutajanimi sisestatud
-	if (isset ($_POST["loginEmail"])){
-		if (empty ($_POST["loginEmail"])){
-			$loginEmailError ="NB! Ilma selleta ei saa sisse logida!";
-		} else {
-			$loginEmail = $_POST["loginEmail"];
+	//kas logitakse sisse
+	if(isset($_POST["loginButton"])){
+	
+		//kas on kasutajanimi sisestatud
+		if (isset ($_POST["loginEmail"])){
+			if (empty ($_POST["loginEmail"])){
+				$loginEmailError ="NB! Ilma selleta ei saa sisse logida!";
+			} else {
+				$loginEmail = $_POST["loginEmail"];
+			}
 		}
+		if(!empty($loginEmail) and !empty($_POST["loginPassword"]));
+		
 	}
 	
 	//Kõiki kasutaja loomise sisestusi kontrollitakse vaid, kui on vastavat nuppu klikitud
@@ -178,7 +191,8 @@
 		<p><input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>"></p>
 			<label>Teie parool: </label>
 			<p><input name="loginPassword" placeholder="Salasõna" type="password"></p>
-			<input type="submit" value="Logi sisse">
+			<input name="loginButton" type="submit" value="Logi sisse">
+			<span><?php echo $notice ?></span></p>
 	</form>
 		
 	<h3>Uue kasutaja loomine</h3>
@@ -204,6 +218,7 @@
 					<p><input name="signupPassword" placeholder="Salasõna" type="password"></p>
 					<span><?php echo $signupPasswordError; ?></span>
 					<input type="submit" value="Loo kasutaja">
+					
 	</form>
 </body>
 </html>
