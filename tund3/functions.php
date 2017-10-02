@@ -3,7 +3,7 @@
 $database = "if17_sarrpetr";
 
 //alustan sessiooni
-$_SESSION = 
+session_start();
 
 //sisselogimise funktsioon
 function signIn($email, $password){
@@ -16,26 +16,28 @@ function signIn($email, $password){
 	$stmt->execute();
 	
 	//kontrollime vastavust
-	if ($stmt->fetch()){
-		$hash = hash("sha512", $password);
-		if ($hash == $passwordFromDb){
-			$notice = "Logisite sisse.";
-			$_SESSION["userId"] = $id;
-			$_SESSION["userEmail"] = $emailFromDb
-			
-			//liigume edasi pealehele (main.php)
-			header("location main.php");
-			exit();
+		if ($stmt->fetch()){
+			$hash = hash("sha512", $password);
+			if ($hash == $passwordFromDb){
+				$notice = "Logisite sisse!";
+				
+				//Määran sessiooni muutujad
+				$_SESSION["userId"] = $id;
+				$_SESSION["userEmail"] = $emailFromDb;
+				
+				//liigume edasi pealehele (main.php)
+				header("Location: main.php");
+				exit();
+			} else {
+				$notice = "Vale salasõna!";
+			}
 		} else {
-			$notice = "Vale salasõna.";
+			$notice = 'Sellise kasutajatunnusega "' .$email .'" pole registreeritud!';
 		}
-	} else {
-		$notice = 'Sellise kasutajatunnusega "' .$email .'" pole registreeritud!';
+		$stmt->close();
+		$mysqli->close();
+		return $notice;
 	}
-	$stmt->close();
-	$mysqli->close();
-	return $notice;
-}
 
 
 //kasutaja salvestamise funktsioon
@@ -53,7 +55,7 @@ function signUp($signupFirstName, $signupFamilyName, $signupBirthDate, $Gender, 
 		if ($stmt->execute()){
 			echo "\n Õnnestus!";
 		} else {
-			echo "\n Tekkiv viga!";
+			echo "\n Tekkis viga!";
 		}
 		$stmt->close();
 		$mysqli->close();
