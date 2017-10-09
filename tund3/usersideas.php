@@ -3,7 +3,7 @@
 	
 	//kui pole sisse loginud, siis sisselogimise lehele
 	if(!isset($_SESSION["userId"])){
-		header("Location: login.php");
+		header("location login.php");
 		exit();
 	}
 
@@ -11,7 +11,7 @@
 	if(isset($_GET["logout"])){
 		//lõpetame sessiooni
 		session_destroy();
-		header("Location: login.php");
+		header("location login.php");
 	}
 	
 	/*
@@ -33,18 +33,17 @@
 	<p><a href="?logout=1">Logi välja</a>!</p>
 	<p><a href="main.php">Pealeht</a></p>
 	<hr>
-	<h2>Kõik süsteemi kasutajad</h2>
-	<table border="1" style="border: 1px solid black; border-collapse: collapse">
-	<tr>
-		<th>Eesnimi</th><th>Perekonnanimi</th><th>e.posti aadress</th>
-	</tr>
-	<tr>
-		<td>Juku</td><td>Porgand</td><td>juku.porgand@aed.ee</td>
-	</tr>
-	<tr>
-		<td>Mari...
-	</tr>
-	</table>
+	<h2>Lisa uus mõte</h2>
+	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+		<label>Päeva esimene mõte: </label>
+		<input name="idea" type="text">
+		<br>
+		<label>mõttega seostuv värv: </label>
+		<input name="ideaColor" type="color">
+		<br>
+		<input name="ideaBtn" type="submit" value="salvesta">
+		
+	</form>
 	
 </body>
 </html>

@@ -3,7 +3,7 @@
 	
 	//kui pole sisse loginud, siis sisselogimise lehele
 	if(!isset($_SESSION["userId"])){
-		header("location login.php");
+		header("Location: login.php");
 		exit();
 	}
 
@@ -11,7 +11,7 @@
 	if(isset($_GET["logout"])){
 		//lõpetame sessiooni
 		session_destroy();
-		header("location login.php");
+		header("Location: login.php");
 	}
 	
 	

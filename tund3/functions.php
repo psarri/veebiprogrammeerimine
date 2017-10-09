@@ -1,5 +1,5 @@
 <?php
-
+require("../../../config.php");
 $database = "if17_sarrpetr";
 
 //alustan sessiooni
@@ -61,6 +61,40 @@ function signUp($signupFirstName, $signupFamilyName, $signupBirthDate, $Gender, 
 		$mysqli->close();
 	}
 
+	//mõtete salvestamine
+	function saveIdea($idea, $color){
+		//echo $color;
+		$notice = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO vpuserideas (userid, idea, ideacolor) VALUES (?, ?, ?)");
+		echo $mysqli->error;
+		$stmt->bind_param("iss", $_SESSION["userId"], $idea, $color);
+		if($stmt->execute()){
+			$notice = "Mõte on salvestatud";
+		} else {
+			$notice = "Mõtte salvestamisel tekkis viga." .$stmt->error;
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $notice;
+	}
+	
+	//kõikide mõtete lugemise funktsioon
+	function readAllIdeas(){
+		$ideasHTML = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT idea, ideaColor FROM vpuserideas");
+		$stmt->bind_result($idea, $color);
+		$stmt->execute();
+		$result = array();//?
+		while ($stmt->fetch()){
+			$ideasHTML .= '<p style="background-color: '.color .'">'.$idea ."</p> \n";
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $ideasHTML;
+	}
+	
 //sisestuse kontrollimise funktsioon
 	function test_input($data){
 		$data = trim($data);//ebavajalikud tühikud jms eemaldada
