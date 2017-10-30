@@ -83,12 +83,14 @@
 	function readAllIdeas(){
 		$ideasHTML = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT idea, ideaColor FROM vpuserideas");
-		$stmt->bind_result($idea, $color);
+		$stmt = $mysqli->prepare("SELECT id, idea, ideaColor FROM vpuserideas WHERE userid = ? ORDER BY id DESC");
+		$stmt->bind_param("i", $_SESSION["userId"]);
+		$stmt->bind_result($ideaId, $idea, $color);
 		$stmt->execute();
 		//$result = array();//?
 		while ($stmt->fetch()){
-			$ideasHTML .= '<p style="background-color: ' .$color .'">' .$idea ."</p> \n";
+			$ideasHTML .= '<p style="background-color: ' .$color .'">' .$idea .' | <a href="ideaedit.php?id=' .$ideaId .'">Toimeta</a>' ."</p> \n";
+			//link: <a href="ideaedit.php?id=4"> Toimeta</a>
 		}
 		$stmt->close();
 		$mysqli->close();
@@ -103,11 +105,6 @@
 		return $data;
 	}
 	
-	//kõikide kasutajate kuvamine
-	function userslist(){
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		
-		while ($stmt->fetch()){
 	/*
 	$x = 5;
 	$y = 6;
