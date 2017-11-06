@@ -14,7 +14,7 @@
 		if($stmt->fetch()){
 			$ideaObject->text = $ideaText;
 			$ideaObject->color = $ideaColor;
-		}else{
+		} else {
 			//kui sellist ideed pole või on kustutatud
 			header("Location: usersideas.php");
 			exit();
@@ -36,7 +36,7 @@
 		} else {
 			echo $stmt->error;
 		}
-		$stmt->execute();
+		
 		$stmt->close();
 		$mysqli->close();
 	}

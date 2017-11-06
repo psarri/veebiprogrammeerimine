@@ -4,7 +4,7 @@
 	
 	$notice = "";
 	
-	//kui pole sisseloginud, siis sisselogimise lehele
+//kui pole sisseloginud, siis sisselogimise lehele
 	if(!isset($_SESSION["userId"])){
 		header("Location: login.php");
 		exit();
@@ -17,14 +17,22 @@
 		header("Location: login.php");
 	}
 	
-	//loen muudetava mõtte
-	$idea = getSingleIdeaData($_GET["id"]);
 	
 	//kas uuendatakse
 	if (isset($_POST["update"])){
-		updateIdea ($_POST['id'], test_input($_POST["idea"], $_POST["ideaColor"]));
-		header("Location: ideaedit.php?id=" .$_POST["id"]);
+		echo "hakkab uuendama!";
+		echo $_POST["id"];
+		updateIdea($_POST["id"], test_input($_POST["idea"]), $_POST["ideaColor"]);
+		header("Location: usersideas.php");
 		exit();
+	}
+	
+	
+	//Loen muudetava mõtte
+	if(isset($_GET["id"])){
+		$idea = getSingleIdeaData($_GET["id"]);
+	} else {
+		header("Location: usersideas.php");
 	}
 	
 ?>

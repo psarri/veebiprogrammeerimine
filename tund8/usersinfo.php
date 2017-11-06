@@ -39,11 +39,13 @@
 		<th>Eesnimi</th><th>Perekonnanimi</th><th>e.posti aadress</th>
 	</tr>
 	<tr>
-		<td>Mati</td><td>Kask</td><td>.ee</td>
+		<td>Mati</td><td>Kask</td><td>mati@eesti.ee</td>
 	</tr>
 	<tr>
-		<td>Mari...
+		<td>Jaanus</td><td>Tuulik</td><td>jaanus@hot.ee</td>
 	</tr>
+	<tr>
+		<td>Petrik</td><td>Sarri</td><td>petrik@eesti.ee</td>
 	</table>
 	
 </body>
