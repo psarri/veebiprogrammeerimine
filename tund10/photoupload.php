@@ -63,10 +63,10 @@
 			}
 
 		// Kontrolli failisuurust
-			if ($_FILES["fileToUpload"]["size"] > 2000000) {
+			/*if ($_FILES["fileToUpload"]["size"] > 2000000) {
 				echo "Vabandage, fail on liiga suur, et üles laadida.";
 				$uploadOk = 0;
-			}
+			}*/
 
 			// Luba kindlad failiformaadid
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -91,80 +91,7 @@
 				$notice .= "Vabandust, pilti ei laetud üles! ";
 			//Kui saab üles laadida
 		} else {
-			
-			//loeme EXIF infot, millal pilt tehti
-			/*@$exif = exif_read_data($_FILES["fileToUpload"]["tmp_name"], "ANY_TAG", 0, true);
-			//var_dump($exif);
-			if(!empty($exif["DateTimeOriginal"])){
-				$textToImage = "Pilt tehti: " .$exif["DateTimeOriginal"];
-			} else {
-				$textToImage = "Pildil puudub kuupäev.";
-			}*/
-			
-			//lähtudes failitüübist, loon sobiva pildiobjekti
-			/*if($imageFileType == "jpg" or $imageFileType == "jpeg"){
-				$myTempImage = imagecreatefromjpeg($_FILES["fileToUpload"]["tmp_name"]);
-			}
-			if($imageFileType == "gif"){
-				$myTempImage = imagecreatefromgif($_FILES["fileToUpload"]["tmp_name"]);
-			}
-			if($imageFileType == "png"){
-				$myTempImage = imagecreatefrompng($_FILES["fileToUpload"]["tmp_name"]);
-			}*/
-		
-		//suuruse muutmine
-		//küsime originaalsuurust
-		/*$imageWidth = imagesx($myTempImage);
-		$imageHeight = imagesy($myTempImage);
-		$sizeRatio = 1;
-		if($imageWidth > $imageHeight){
-			$sizeRatio = $imageWidth / $maxWidth;
-		} else {
-			$sizeRatio = $imageHeight / $maxHeight;
-		}
-		$myImage = resize_image($myTempImage, $imageWidth, $imageHeight, round($imageWidth / $sizeRatio), round($imageHeight / $sizeRatio));*/
-		
-		//vesimärgi lisamine
-		/*$stamp = imagecreatefrompng("../../graphics/hmv_logo.png");
-		$stampWidth = imagesx($stamp);
-		$stampHeight = imagesy($stamp);
-		$stampPosX = round($imageWidth / $sizeRatio) - $stampWidth - $marginRight;
-		$stampPosY = round($imageHeight / $sizeRatio) - $stampHeight - $marginBottom;
-		imageCopy($myImage, $stamp, $stampPosX, $stampPosY, 0, 0, $stampWidth, $stampHeight);*/
-		
-		//lisame ka teksti vesimärgile
-		/*$textColor = imagecolorallocatealpha($myImage, 150, 150, 150, 50);
-		//RGBA alpha 0-127
-		imagettftext($myImage, 20, 0, 10, 25, $textColor, "../../graphics/ARIAL.TTF", $textToImage);*/
-		
-		//salvestame pildi
-		/*if($imageFileType == "jpg" or $imageFileType == "jpeg"){
-			if(imagejpeg($myImage, $target_file, 95)){
-				$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " laeti üles! ";
-			} else {
-				$notice = "Vabandust, tekkis tõrge!";
-			}
-		}
-		if($imageFileType == "png"){
-			if(imagejpeg($myImage, $target_file, 95)){
-				$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " laeti üles! ";
-			} else {
-				$notice = "Vabandust, tekkis tõrge!";
-			}
-		}
-		if($imageFileType == "gif"){
-			if(imagejpeg($myImage, $target_file, 95)){
-				$notice = "Fail: " .basename( $_FILES["fileToUpload"]["name"]). " laeti üles! ";
-			} else {
-				$notice = "Vabandust, tekkis tõrge!";
-			}
-		}*/
-		
-		//mälu vabastamine
-		/*imagedestroy($myImage);
-		imagedestroy($myTempImage);
-		imagedestroy($stamp);*/
-		
+
 		//kasutan klassi
 		$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
 		$myPhoto->readExif();
@@ -175,8 +102,6 @@
 		$myPhoto->savePhoto($target_dir, $target_file);
 		$myPhoto->clearImages();
 		unset($myPhoto);
-		
-		
 	}
 
 	}//kas vajutati submit nuppu, lõppeb
@@ -193,7 +118,7 @@
 		<form action="photoupload.php" method="post" enctype="multipart/form-data">
 			<label>Valige pildifail:</label>
 			<input type="file" name="fileToUpload" id="fileToUpload">
-			<input type="submit" value="Lae üles" name="submit">
+			<input type="submit" value="Lae üles" name="submit" id="submitPhoto"><span id="fileSizeError"></span>
 			<br>
 			<input type="radio" name="visibility" value="1" <?php if ($visibility == "1") {echo 'checked';} ?>><label>avalik</label>
 			<input type="radio" name="visibility" value="2" <?php if ($visibility == "2") {echo 'checked';} ?>><label>sisseloginud kasutajale</label>
@@ -203,5 +128,6 @@
 		<span><?php echo $notice; ?></span>
 
 <?php
+	echo '<script type="text/javascript" src="javascript/checkFileSize.js"></script>';
 	require("footer.php")
 ?>
